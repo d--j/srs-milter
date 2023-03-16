@@ -10,6 +10,12 @@ if ! command -V systemctl >/dev/null 2>&1; then
 #    systemd_version=$(systemctl --version | head -1 | sed 's/systemd //g')
 fi
 
+fixSystemdUnit() {
+  if ! getent group nogroup >/dev/null 2>&1; then
+    sed -i -e "s/^SupplementaryGroups=nogroup/SupplementaryGroups=nobody/" /lib/systemd/system/srs-milter.service || printf "\033[31m Could not fix srs-milter.service\033[0m\n"
+  fi
+}
+
 errorNoSrsKey() {
   printf "\033[31m Could not generate secret. Replace __SRS_KEY__ with random data in /etc/srs-milter/srs-milter.yml\033[0m\n"
 }
@@ -26,7 +32,7 @@ seedConfig() {
       else
         INPUT=/dev/random
       fi
-      if [ -c "$INPUT" ] && SECRET_KEY=$(LC_ALL=C tr -dc 'A-Za-z0-9' <"$INPUT" | head -c 64); then
+      if [ -c "$INPUT" ] && SECRET_KEY=$(LC_ALL=C tr -dc 'A-Za-z0-9' 2>/dev/null <"$INPUT" | head -c 64); then
         sed -i -e "s/__SRS_KEY__/$SECRET_KEY/" /etc/srs-milter/srs-milter.yml || errorNoSrsKey
       else
         errorNoSrsKey
@@ -55,10 +61,15 @@ seedConfig() {
 }
 
 cleanInstall() {
-  chgrp nogroup /etc/srs-milter /etc/srs-milter/srs-milter.yml || :
+  if getent group nogroup >/dev/null 2>&1; then
+    chgrp nogroup /etc/srs-milter /etc/srs-milter/srs-milter.yml || :
+  else
+    chgrp nobody /etc/srs-milter /etc/srs-milter/srs-milter.yml || :
+  fi
   chmod 0750 /etc/srs-milter || :
   chmod 0640 /etc/srs-milter/srs-milter.yml || :
   seedConfig
+  fixSystemdUnit
   if [ "${use_systemctl}" = "False" ]; then
     printf "\033[31m srs-milter does not support your init system. You need to setup daemon starting on your own.\033[0m\n"
   else
@@ -76,6 +87,7 @@ cleanInstall() {
 
 upgrade() {
   seedConfig
+  fixSystemdUnit
   systemctl daemon-reload || :
   systemctl restart srs-milter.service || :
 }
