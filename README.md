@@ -1,5 +1,8 @@
 # SRS milter
 
+![Build status](https://github.com/d--j/srs-milter/actions/workflows/go.yml/badge.svg?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/d--j/srs-milter/badge.svg)](https://coveralls.io/github/d--j/srs-milter)
+
 A milter (mail filter) for Postfix and Sendmail
 handling [SRS address rewriting](https://en.wikipedia.org/wiki/Sender_Rewriting_Scheme).
 
