@@ -1,0 +1,3 @@
+FROM <local@example.com>
+DECISION ACCEPT
+FROM <local@example.com> *

@@ -1,0 +1,27 @@
+# Required: The domain we use to generate SRS addresses
+srsDomain: '__SRS_DOMAIN__'
+
+# Required: List of secrets for SRS address generation and validation
+# The first key gets used for SRS address generation. All other keys
+# are only used for SRS address validation.
+# You can use multiple keys for key rotation.
+#srsKeys:
+#  - active-key
+#  - rotated-key
+srsKeys: ['__SRS_KEY__']
+
+# All domains we consider local (i.e. we do not forward but deliver locally)
+# You can use IDN domain names. They will be normalized to their ASCII representation automatically.
+#localDomains:
+#  - 'example.net'
+#  - 'example.com'
+
+# Adjust the logging verbosity with logLevel. A logLevel of 0 only logs errors/warnings.
+logLevel: 1
+
+# Public IPv4 and IPv6 addresses of the MTA
+# If the MTA is on another host or does not have public IPs (e.g. it is firewalled) you need
+# to specify this list.
+# If you leave this list empty we will try to determine the public IPs automatically.
+#localIps:
+#  - '8.8.8.8'

@@ -1,0 +1,20 @@
+FROM <not-local@example.net>
+TO <someone@example.net>
+HEADER
+From: Someone <not-local@example.net>
+To: <someone@example.net>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.
+DECISION ACCEPT
+FROM <SRS0=+5us=46=example.net=not-local@srs.example.com> *
+TO <someone@example.net> *
+HEADER
+Received: placeholder
+From: Someone <not-local@example.net>
+To: <someone@example.net>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.

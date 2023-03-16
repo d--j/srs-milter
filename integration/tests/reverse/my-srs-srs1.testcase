@@ -1,0 +1,18 @@
+TO <SRS1=hQV7=example.net==R9Ph=46=example.net=my-srs-srs1@srs.example.com>
+HEADER
+From: Someone <someone@example.net>
+To: Someone <SRS1=hQV7=example.net==R9Ph=46=example.net=my-srs-srs1@srs.example.com>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.
+DECISION ACCEPT
+TO <SRS0=R9Ph=46=example.net=my-srs-srs1@example.net> *
+HEADER
+Received: placeholder
+From: Someone <someone@example.net>
+To: "Someone" <SRS0=R9Ph=46=example.net=my-srs-srs1@example.net>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.

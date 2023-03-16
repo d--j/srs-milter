@@ -1,0 +1,31 @@
+[Unit]
+Description=Mail filter handling SRS address rewriting
+After=network.target
+
+[Service]
+DynamicUser=true
+User=srsmilter
+Group=srsmilter
+SupplementaryGroups=nogroup
+ExecStart=/usr/bin/srs-milter -systemd
+Restart=always
+RestartSec=10
+#ConfigurationDirectory=srs-milter
+#ConfigurationDirectoryMode=750
+ProtectProc=invisible
+PrivateDevices=true
+ProtectHostname=true
+ProtectClock=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+LockPersonality=true
+RestrictRealtime=true
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,3 @@
+FROM <not-local-no-spf@example.org>
+DECISION ACCEPT
+FROM <not-local-no-spf@example.org> *

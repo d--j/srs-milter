@@ -1,0 +1,20 @@
+FROM <SRS0=ABCD=46=example.org=not-local-srs1@example.net>
+TO <someone@example.net>
+HEADER
+From: Someone <not-local-srs1@example.net>
+To: <someone@example.net>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.
+DECISION ACCEPT
+FROM <SRS1=TWks=example.net==ABCD=46=example.org=not-local-srs1@srs.example.com> *
+TO <someone@example.net> *
+HEADER
+Received: placeholder
+From: Someone <not-local-srs1@example.net>
+To: <someone@example.net>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.

@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://github.com/d--j/srs-milter
+
+Files:
+ *
+Copyright: 2023 Daniel Jagszent <daniel.jagszent@saasweb.net>
+License: BSD-2-clause

@@ -1,0 +1,18 @@
+TO <SRS0=PNjA=46=example.net=my-srs@srs.example.com>
+HEADER
+From: Someone <someone@example.net>
+To: Someone <SRS0=PNjA=46=example.net=my-srs@srs.example.com>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.
+DECISION ACCEPT
+TO <my-srs@example.net> *
+HEADER
+Received: placeholder
+From: Someone <someone@example.net>
+To: "Someone" <my-srs@example.net>
+Subject: Test
+Date: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)
+Message-ID: <id@example.com>
+.
