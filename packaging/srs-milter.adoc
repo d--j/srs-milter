@@ -23,10 +23,10 @@ The srs-milter(1) daemon is a Postfix and Sendmail compatible milter that does S
 *-help*::
   Print a help message.
 
-*-addr* _string_::
+*-milterAddr* _string_::
   Bind to address/port or unix domain socket path (default "127.0.0.1:10382")
 
-*-proto* _string_::
+*-milterProto* _string_::
   Protocol family (unix or tcp) (default "tcp")
 
 *-forward* _email_::

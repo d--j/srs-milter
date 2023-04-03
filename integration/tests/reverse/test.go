@@ -14,16 +14,16 @@ func main() {
 	integration.Test(func(ctx context.Context, trx mailfilter.Trx) (mailfilter.Decision, error) {
 		p := patches.Apply()
 		defer p.Reset()
-		config := &srsMilter.Configuration{
-			SrsDomain:    srsMilter.ToDomain("srs.example.com"),
-			LocalDomains: []srsMilter.Domain{"example.com"},
+		config := &srsmilter.Configuration{
+			SrsDomain:    srsmilter.ToDomain("srs.example.com"),
+			LocalDomains: []srsmilter.Domain{"example.com"},
 			SrsKeys:      []string{"secret-key"},
 			LocalIps:     []net.IP{net.ParseIP("10.0.0.1")},
 			LogLevel:     5,
 		}
 		config.Setup()
-		cache := srsMilter.NewCache(config)
-		d, err := srsMilter.Filter(ctx, trx, config, cache)
+		cache := srsmilter.NewCache(config)
+		d, err := srsmilter.Filter(ctx, trx, config, cache)
 		return d, err
 	}, mailfilter.WithDecisionAt(mailfilter.DecisionAtEndOfHeaders))
 }

@@ -1,4 +1,4 @@
-package srsMilter
+package srsmilter
 
 import (
 	"net"

@@ -16,8 +16,9 @@ srsKeys: ['__SRS_KEY__']
 #  - 'example.net'
 #  - 'example.com'
 
-# Adjust the logging verbosity with logLevel. A logLevel of 0 only logs errors/warnings.
-logLevel: 1
+# Adjust the logging verbosity with logLevel. A logLevel of 0 (the default) only logs critical errors.
+# `1` also logs normal errors. `2` also warnings. `3` informational messages and `4` also includes debug messages.
+logLevel: 3
 
 # Public IPv4 and IPv6 addresses of the MTA
 # If the MTA is on another host or does not have public IPs (e.g. it is firewalled) you need
@@ -25,3 +26,8 @@ logLevel: 1
 # If you leave this list empty we will try to determine the public IPs automatically.
 #localIps:
 #  - '8.8.8.8'
+
+# Optional: You can specify a MySQL connection/query to lookup mail forwarding replacements
+#dbDriver: 'mysql'
+#dbDSN: 'user:password@tcp(host:port)/dbname'
+#dbForwardQuery: "SELECT destination from mail_forwarding WHERE source = ? AND active = 'y' AND server_id = 1;"

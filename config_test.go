@@ -1,4 +1,4 @@
-package srsMilter
+package srsmilter
 
 import (
 	"testing"
@@ -34,8 +34,8 @@ func TestConfiguration_HasLocalDomain(t *testing.T) {
 				LocalDomains: tt.local,
 			}
 			c.Setup()
-			if got := c.HasLocalDomain(tt.arg); got != tt.want {
-				t.Errorf("HasLocalDomain() = %v, want %v", got, tt.want)
+			if got := c.IsLocalDomain(tt.arg); got != tt.want {
+				t.Errorf("IsLocalDomain() = %v, want %v", got, tt.want)
 			}
 		})
 	}

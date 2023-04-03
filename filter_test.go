@@ -1,4 +1,4 @@
-package srsMilter
+package srsmilter
 
 import (
 	"context"
@@ -81,6 +81,12 @@ func TestFilter(t *testing.T) {
 				SetRcptTosList("someone@example.net"),
 			conf, cache,
 		}, mailfilter.Accept, []testtrx.Modification{{Kind: testtrx.ChangeFrom, Addr: "SRS1=TWks=example.net==ABCD=46=example.org=not-local-srs1@srs.example.com"}}, false},
+		{"forward-bogus-email", args{
+			newTrx().
+				SetMailFrom(addr.NewMailFrom("(not-local@example.net", "", "smtp", "", "")).
+				SetRcptTosList("someone@example.net"),
+			conf, cache,
+		}, mailfilter.Accept, nil, false},
 		{"reverse-local", args{
 			newTrx().
 				SetRcptTosList("local@example.com"),
@@ -114,6 +120,31 @@ func TestFilter(t *testing.T) {
 		}, mailfilter.Accept, []testtrx.Modification{
 			{Kind: testtrx.DelRcptTo, Addr: "SRS0=PNjA=46=example.net=my-srs@srs.example.com"},
 			{Kind: testtrx.AddRcptTo, Addr: "my-srs@example.net"},
+		}, false},
+		{"reverse-my-srs-err", args{
+			newTrx().
+				SetRcptTosList("SRS0=XXXX=46=example.net=my-srs@srs.example.com").
+				SetHeadersRaw([]byte("From: Someone <someone@example.net>\nTo: Someone <SRS0=XXXX=46=example.net=my-srs@srs.example.com>\nSubject: Test\nDate: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)\nMessage-ID: <id@example.com>\n\n")),
+			conf, cache,
+		}, mailfilter.Accept, nil, false},
+		{"reverse-my-srs-header-err", args{
+			newTrx().
+				SetRcptTosList("SRS0=PNjA=46=example.net=my-srs@srs.example.com").
+				SetHeadersRaw([]byte("From: Someone <someone@example.net>\nTo: Someone <SRS0=PNjA=46=example.net=my-srs@srs.example.com>,,(broken\nSubject: Test\nDate: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)\nMessage-ID: <id@example.com>\n\n")),
+			conf, cache,
+		}, mailfilter.Accept, []testtrx.Modification{
+			{Kind: testtrx.DelRcptTo, Addr: "SRS0=PNjA=46=example.net=my-srs@srs.example.com"},
+			{Kind: testtrx.AddRcptTo, Addr: "my-srs@example.net"},
+		}, false},
+		{"reverse-my-srs-cc", args{
+			newTrx().
+				SetRcptTosList("SRS0=PNjA=46=example.net=my-srs@srs.example.com").
+				SetHeadersRaw([]byte("From: Someone <someone@example.net>\nTo: Someone <SRS0=PNjA=46=example.net=my-srs@srs.example.com>\nCc: <boss@example.com>\nSubject: Test\nDate: Fri, 10 Mar 2023 23:29:35 +0000 (UTC)\nMessage-ID: <id@example.com>\n\n")),
+			conf, cache,
+		}, mailfilter.Accept, []testtrx.Modification{
+			{Kind: testtrx.DelRcptTo, Addr: "SRS0=PNjA=46=example.net=my-srs@srs.example.com"},
+			{Kind: testtrx.AddRcptTo, Addr: "my-srs@example.net"},
+			{Kind: testtrx.ChangeHeader, Index: 1, Name: "To", Value: " \"Someone\" <my-srs@example.net>"},
 		}, false},
 		{"reverse-other-srs", args{
 			newTrx().

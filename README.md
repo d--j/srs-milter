@@ -56,6 +56,15 @@ localDomains:
   - 'example.com'
 ```
 
+You can also specify an optional MySQL query for email forwarding lookups: 
+
+```yaml
+# Optional: You can specify a MySQL connection/query to lookup mail forwarding replacements
+dbDriver: 'mysql'
+dbDSN: 'user:password@tcp(host:port)/dbname'
+dbForwardQuery: "SELECT destination from mail_forwarding WHERE source = ? AND active = 'y' AND server_id = 1;"
+```
+
 If your machine does not have public IP addresses (NATed/firewalled) or you deployed the milter on another machine, you
 need to specify the IPs that we check against the SPF records. These IPs should be the IPs that get used for outgoing
 SMTP connections.
@@ -75,9 +84,9 @@ You can use command line parameters to change this default:
 ```
 $ srs-milter -help
 Usage of ./srs-milter:
-  -addr string
+  -milterAddr string
         Bind to address/port or unix domain socket path (default "127.0.0.1:10382")
-  -proto string
+  -milterProto unix or tcp
         Protocol family (unix or tcp) (default "tcp")
   -forward email
         email to do forward SRS lookup for. If specified the milter will not be started.
@@ -98,6 +107,8 @@ Add this to `/etc/postfix/main.cf`
 smtpd_milters = inet:127.0.0.1:10382
 non_smtpd_milters = inet:127.0.0.1:10382
 milter_protocol = 6
+# so that SRS bounces can be accepted - otherwise Postfix will reject the bounces
+mydestination = $myhostname, srs.example.com
 ```
 
 If you already have milters defined (e.g. Rspamd),
