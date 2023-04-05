@@ -5,7 +5,7 @@ go 1.19
 require (
 	blitiri.com.ar/go/spf v1.5.1
 	github.com/agiledragon/gomonkey/v2 v2.9.0
-	github.com/d--j/go-milter v0.7.0
+	github.com/d--j/go-milter v0.8.0
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/go-logfmt/logfmt v0.6.0
 	github.com/go-sql-driver/mysql v1.7.0

@@ -52,6 +52,8 @@ github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354/go.mod h1:WmhPx2Nbnht
 github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
 github.com/d--j/go-milter v0.7.0 h1:cGdgCRbqHptW4ElEA3yrPLyJymglmJ2OF5zsJIz4Ymg=
 github.com/d--j/go-milter v0.7.0/go.mod h1:Xqk8WnXZ6Sk7r4J0FHZFExi0l0PDwT6EHbN5yMZTVHA=
+github.com/d--j/go-milter v0.8.0 h1:CHLSHRjMUrYg1/HMZPjLQo/L+5nq644Sq7JFE1VIGqI=
+github.com/d--j/go-milter v0.8.0/go.mod h1:Xqk8WnXZ6Sk7r4J0FHZFExi0l0PDwT6EHbN5yMZTVHA=
 github.com/d--j/srs v0.0.0-20230317210039-a2adfcc7ffdf h1:DO0XGxkAcr+9jq0+y078Esp8PWKj8CMTsAWldufa9CA=
 github.com/d--j/srs v0.0.0-20230317210039-a2adfcc7ffdf/go.mod h1:poYfuh4BE2wUTkmAyELATePMccRV3nj/fAc1UDBbsGI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
