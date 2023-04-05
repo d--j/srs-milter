@@ -27,5 +27,4 @@ _testmain.go
 /.idea
 
 /dist/
-/packaging/srs-milter.1
 /packaging/srs-milter.1.gz

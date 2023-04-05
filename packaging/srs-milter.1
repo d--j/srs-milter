@@ -1,0 +1,86 @@
+'\" t
+.\"     Title: srs-milter
+.\"    Author: Daniel Jagszent
+.\"  Language: English
+.\"
+.TH "SRS\-MILTER" "1" "" "srs\-milter" "srs\-milter Manual"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+srs-milter \- Mail filter handling SRS address rewriting
+.SH "SYNOPSIS"
+.sp
+\fBsrs\-milter\fP [\fIOPTION\fP]...
+.SH "DESCRIPTION"
+.sp
+The srs\-milter(1) daemon is a Postfix and Sendmail compatible milter that does SRS address rewriting.
+.SH "OPTIONS"
+.sp
+\fB\-help\fP
+.RS 4
+Print a help message.
+.RE
+.sp
+\fB\-milterAddr\fP \fIstring\fP
+.RS 4
+Bind to address/port or unix domain socket path (default "127.0.0.1:10382")
+.RE
+.sp
+\fB\-milterProto\fP \fIstring\fP
+.RS 4
+Protocol family (unix or tcp) (default "tcp")
+.RE
+.sp
+\fB\-forward\fP \fIemail\fP
+.RS 4
+email to do forward SRS lookup for. If specified the milter will not be started.
+.RE
+.sp
+\fB\-reverse\fP \fIemail\fP
+.RS 4
+email to do reverse SRS lookup for. If specified the milter will not be started.
+.RE
+.sp
+\fB\-systemd\fP
+.RS 4
+enable systemd mode (log without date/time)
+.RE
+.SH "EXIT STATUS"
+.sp
+\fB0\fP
+.RS 4
+Success.
+.RE
+.sp
+\fB1\fP
+.RS 4
+Failure (usage error; configuration error; unexpected error).
+.RE
+.SH "BUGS"
+.sp
+Refer to the \fBsrs\-milter\fP issue tracker at \c
+.URL "https://github.com/d\(emj/srs\-milter/issues?q=is%3Aopen" "" "."
+.SH "COPYING"
+.sp
+Copyright (C) 2023\-present Daniel Jagszent.
+Use of this software is granted under the terms of the BSD 2\-Clause License.
+.SH "AUTHOR"
+.sp
+Daniel Jagszent
