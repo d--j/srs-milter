@@ -40,22 +40,32 @@ Print a help message.
 .sp
 \fB\-milterAddr\fP \fIstring\fP
 .RS 4
-Bind to address/port or unix domain socket path (default "127.0.0.1:10382")
+Bind milter server to address/port or unix domain socket path (default "127.0.0.1:10382")
 .RE
 .sp
 \fB\-milterProto\fP \fIstring\fP
 .RS 4
-Protocol family (unix or tcp) (default "tcp")
+Protocol family (unix or tcp) of milter server (default "tcp")
+.RE
+.sp
+\fB\-socketmapAddr\fP \fIstring\fP
+.RS 4
+Bind socketmap server to address/port or unix domain socket path (default "127.0.0.1:10383")
+.RE
+.sp
+\fB\-socketmapProto\fP \fIstring\fP
+.RS 4
+Protocol family (unix or tcp) of socketmap server (default "tcp")
 .RE
 .sp
 \fB\-forward\fP \fIemail\fP
 .RS 4
-email to do forward SRS lookup for. If specified the milter will not be started.
+email to do forward SRS lookup for. If specified the daemon will not be started.
 .RE
 .sp
 \fB\-reverse\fP \fIemail\fP
 .RS 4
-email to do reverse SRS lookup for. If specified the milter will not be started.
+email to do reverse SRS lookup for. If specified the daemon will not be started.
 .RE
 .sp
 \fB\-systemd\fP
