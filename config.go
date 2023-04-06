@@ -78,7 +78,7 @@ func emailWithoutExtension(local string, asciiDomain string) string {
 	if plus < 1 {
 		return fmt.Sprintf("%s@%s", local, asciiDomain)
 	}
-	return fmt.Sprintf("%s@%s", local[:plus-1], asciiDomain)
+	return fmt.Sprintf("%s@%s", local[:plus], asciiDomain)
 }
 
 func (c *Configuration) ResolveForward(email *addr.RcptTo) (emails []*addr.RcptTo) {
