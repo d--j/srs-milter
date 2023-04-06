@@ -3,10 +3,12 @@ package main
 import (
 	"context"
 	"flag"
+	"net"
 	"os"
 	"sync"
 
 	"github.com/d--j/go-milter/mailfilter"
+	"github.com/d--j/go-socketmap"
 	"github.com/d--j/srs-milter"
 	"github.com/fsnotify/fsnotify"
 	"github.com/inconshreveable/log15"
@@ -28,23 +30,31 @@ var (
 func main() {
 	// parse commandline arguments
 	var systemd bool
-	var milterProtocol, milterAddress, forward, reverse string
+	var milterProtocol, milterAddress, socketmapProtocol, socketmapAddress, forward, reverse string
 	flag.StringVar(&milterProtocol,
 		"milterProto",
 		"tcp",
-		"Protocol family (`unix or tcp`)")
+		"Protocol `family` (unix or tcp) of milter server")
 	flag.StringVar(&milterAddress,
 		"milterAddr",
 		"127.0.0.1:10382",
-		"Bind to address/port or unix domain socket path")
+		"Bind milter server to `address/port` or unix domain socket path")
+	flag.StringVar(&socketmapProtocol,
+		"socketmapProto",
+		"tcp",
+		"Protocol `family` (unix or tcp) of socketmap server")
+	flag.StringVar(&socketmapAddress,
+		"socketmapAddr",
+		"127.0.0.1:10383",
+		"Bind socketmap server to `address/port` or unix domain socket path")
 	flag.StringVar(&forward,
 		"forward",
 		"",
-		"`email` to do forward SRS lookup for. If specified the milter will not be started.")
+		"`email` to do forward SRS lookup for. If specified the daemon will not be started.")
 	flag.StringVar(&reverse,
 		"reverse",
 		"",
-		"`email` to do reverse SRS lookup for. If specified the milter will not be started.")
+		"`email` to do reverse SRS lookup for. If specified the daemon will not be started.")
 	flag.BoolVar(&systemd, "systemd", false, "enable systemd mode (log without date/time)")
 	flag.Parse()
 
@@ -61,7 +71,11 @@ func main() {
 
 	// make sure the specified protocol is either unix or tcp
 	if milterProtocol != "unix" && milterProtocol != "tcp" {
-		logger.Crit("invalid protocol name", "protocol", milterProtocol)
+		logger.Crit("invalid miler protocol name", "protocol", milterProtocol)
+		os.Exit(1)
+	}
+	if socketmapProtocol != "unix" && socketmapProtocol != "tcp" {
+		logger.Crit("invalid socketmap protocol name", "protocol", socketmapProtocol)
 		os.Exit(1)
 	}
 
@@ -152,7 +166,23 @@ func main() {
 		logger.Crit("error creating milter", "err", err)
 		os.Exit(1)
 	}
-	logger.Info("milter ready", log15.Ctx{"network": filter.Addr().Network(), "address": filter.Addr().String()})
+
+	smListener, err := net.Listen(socketmapProtocol, socketmapAddress)
+	if err != nil {
+		logger.Crit("error creating socketmap listener", "err", err)
+		os.Exit(1)
+	}
+
+	go func() {
+		socketmap.Serve(smListener, func(_ context.Context, lookup, key string) (string, bool, error) {
+			RuntimeConfigMutex.RLock()
+			config := RuntimeConfig
+			RuntimeConfigMutex.RUnlock()
+			return srsmilter.Socketmap(config, lookup, key)
+		})
+	}()
+
+	logger.Info("ready", "milterProto", filter.Addr().Network(), "milterAddr", filter.Addr().String(), "socketmapProto", smListener.Addr().Network(), "socketmapAddr", smListener.Addr().String())
 
 	// quit when milter quits
 	filter.Wait()

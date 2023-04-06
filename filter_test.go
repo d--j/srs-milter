@@ -9,6 +9,7 @@ import (
 	"github.com/d--j/go-milter/mailfilter"
 	"github.com/d--j/go-milter/mailfilter/addr"
 	"github.com/d--j/go-milter/mailfilter/testtrx"
+	"github.com/emersion/go-message/mail"
 )
 
 func TestFilter(t *testing.T) {
@@ -110,7 +111,7 @@ func TestFilter(t *testing.T) {
 		}, mailfilter.Accept, []testtrx.Modification{
 			{Kind: testtrx.DelRcptTo, Addr: "SRS0=PNjA=46=example.net=my-srs@srs.example.com"},
 			{Kind: testtrx.AddRcptTo, Addr: "my-srs@example.net"},
-			{Kind: testtrx.ChangeHeader, Index: 1, Name: "To", Value: " \"Someone\" <my-srs@example.net>, \"Another\" <another@example.com>"},
+			{Kind: testtrx.ChangeHeader, Index: 1, Name: "To", Value: " \"Someone\" <my-srs@example.net>,\r\n \"Another\" <another@example.com>"},
 		}, false},
 		{"reverse-my-srs-dkim", args{
 			newTrx().
@@ -171,82 +172,24 @@ func TestFilter(t *testing.T) {
 	}
 }
 
-func Test_forwardSrs(t *testing.T) {
-	c2 := &Configuration{
-		SrsDomain: "srs.example.com",
-		SrsKeys:   []string{},
-	}
-	c3 := &Configuration{
-		SrsDomain: "srs.example.com",
-		SrsKeys:   []string{"secret-key", "another"},
-	}
+func Test_outputAddresses(t *testing.T) {
 	type args struct {
-		addr   string
-		config *Configuration
+		addrs []*mail.Address
 	}
 	tests := []struct {
-		name    string
-		args    args
-		want    string
-		wantErr bool
+		name string
+		args args
+		want string
 	}{
-		{"no key", args{"abc", c2}, "", true},
-		{"not-an-email", args{"hello - at - example.com", c3}, "", true},
-		{"my-srs-key-rotation", args{"someone@example.net", c3}, "SRS0=R9Ph=46=example.net=someone@srs.example.com", false},
+		{"one", args{[]*mail.Address{{Address: "root@localhost"}}}, "root@localhost"},
+		{"nil", args{[]*mail.Address{{Address: "root@localhost"}, nil}}, "root@localhost"},
+		{"two", args{[]*mail.Address{{Address: "root@localhost"}, {Address: "root@localhost"}}}, "root@localhost,root@localhost"},
+		{"nil-in-middle", args{[]*mail.Address{{Address: "root@localhost"}, nil, {Address: "root@localhost"}}}, "root@localhost,root@localhost"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Cleanup(monkeyPatch().Reset)
-			got, err := ForwardSrs(tt.args.addr, tt.args.config)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ForwardSrs() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("ForwardSrs() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func Test_reverseSrs(t *testing.T) {
-	c1 := &Configuration{
-		SrsDomain: "srs.example.com",
-		SrsKeys:   []string{"one", "two"},
-	}
-	c2 := &Configuration{
-		SrsDomain: "srs.example.com",
-		SrsKeys:   []string{},
-	}
-	c3 := &Configuration{
-		SrsDomain: "srs.example.com",
-		SrsKeys:   []string{"one", "secret-key"},
-	}
-	type args struct {
-		srsAddress string
-		config     *Configuration
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    string
-		wantErr bool
-	}{
-		{"no key", args{"abc", c2}, "", true},
-		{"not-my-srs", args{"SRS0=R9Ph=46=example.net=someone@srs.example.net", c1}, "", true},
-		{"not-an-address", args{"hello - at - example.com", c1}, "", true},
-		{"my-srs-key-rotation", args{"SRS0=R9Ph=46=example.net=someone@srs.example.com", c3}, "someone@example.net", false},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			t.Cleanup(monkeyPatch().Reset)
-			got, err := ReverseSrs(tt.args.srsAddress, tt.args.config)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ReverseSrs() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("ReverseSrs() got = %v, want %v", got, tt.want)
+			if got := outputAddresses(tt.args.addrs); got != tt.want {
+				t.Errorf("outputAddresses() = %v, want %v", got, tt.want)
 			}
 		})
 	}

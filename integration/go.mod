@@ -5,7 +5,7 @@ go 1.19
 require (
 	blitiri.com.ar/go/spf v1.5.1
 	github.com/agiledragon/gomonkey/v2 v2.9.0
-	github.com/d--j/go-milter v0.8.0
+	github.com/d--j/go-milter v0.8.1
 	github.com/d--j/go-milter/integration v0.0.0-20230315192140-b1c7d01972da
 	github.com/d--j/srs-milter v0.0.0-00010101000000-000000000000
 )
@@ -25,7 +25,7 @@ require (
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/term v0.6.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/tools v0.7.0 // indirect
 )
 

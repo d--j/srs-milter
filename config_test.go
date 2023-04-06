@@ -80,3 +80,27 @@ func TestDomain_Unicode(t *testing.T) {
 		})
 	}
 }
+
+func Test_emailWithoutExtension(t *testing.T) {
+	type args struct {
+		local       string
+		asciiDomain string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"empty", args{"", ""}, "@"},
+		{"without", args{"local", "example.com"}, "local@example.com"},
+		{"with", args{"local+hi", "example.com"}, "local@example.com"},
+		{"double", args{"local+hi+ho", "example.com"}, "local@example.com"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := emailWithoutExtension(tt.args.local, tt.args.asciiDomain); got != tt.want {
+				t.Errorf("emailWithoutExtension() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

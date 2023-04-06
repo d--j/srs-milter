@@ -84,17 +84,20 @@ You can use command line parameters to change this default:
 ```
 $ srs-milter -help
 Usage of ./srs-milter:
-  -milterAddr string
-        Bind to address/port or unix domain socket path (default "127.0.0.1:10382")
-  -milterProto unix or tcp
-        Protocol family (unix or tcp) (default "tcp")
+  -milterAddr address/port
+        Bind milter server to address/port or unix domain socket path (default "127.0.0.1:10382")
+  -milterProto family
+        Protocol family (unix or tcp) of milter server (default "tcp")
+  -socketmapAddr address/port
+        Bind socketmap server to address/port or unix domain socket path (default "127.0.0.1:10383")
+  -socketmapProto family
+        Protocol family (unix or tcp) of socketmap server (default "tcp")
   -forward email
         email to do forward SRS lookup for. If specified the milter will not be started.
   -reverse email
         email to do reverse SRS lookup for. If specified the milter will not be started.
   -systemd
         enable systemd mode (log without date/time)
-
 ```
 
 ## MTA configuration
@@ -107,8 +110,11 @@ Add this to `/etc/postfix/main.cf`
 smtpd_milters = inet:127.0.0.1:10382
 non_smtpd_milters = inet:127.0.0.1:10382
 milter_protocol = 6
-# so that SRS bounces can be accepted - otherwise Postfix will reject the bounces
-mydestination = $myhostname, srs.example.com
+# if you use a dedicated SRS domain (what you should do) then you need to tell Postfix to accept SRS bounces to this domain.
+# You could do that with e.g.:
+relay_domains = hash:your/relay/domain/list srs.example.com
+recipient_canonical_maps = socketmap:inet:localhost:10383:decode
+recipient_canonical_classes = envelope_recipient
 ```
 
 If you already have milters defined (e.g. Rspamd),
