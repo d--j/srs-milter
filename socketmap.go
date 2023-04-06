@@ -18,7 +18,7 @@ func Socketmap(config *Configuration, lookup, key string) (result string, found 
 	email, err := ReverseSrs(key, config)
 	if err != nil {
 		logger.Warn("error decoding", "err", err)
-		return "", false, err
+		return "", false, nil
 	}
 	logger.Debug("decoded", "result", email)
 	return email, true, nil
