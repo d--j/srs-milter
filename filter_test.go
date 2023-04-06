@@ -110,7 +110,7 @@ func TestFilter(t *testing.T) {
 		}, mailfilter.Accept, []testtrx.Modification{
 			{Kind: testtrx.DelRcptTo, Addr: "SRS0=PNjA=46=example.net=my-srs@srs.example.com"},
 			{Kind: testtrx.AddRcptTo, Addr: "my-srs@example.net"},
-			{Kind: testtrx.ChangeHeader, Index: 1, Name: "To", Value: " \"Someone\" <my-srs@example.net>, \"Another\" <another@example.com>"},
+			{Kind: testtrx.ChangeHeader, Index: 1, Name: "To", Value: " \"Someone\" <my-srs@example.net>,\r\n \"Another\" <another@example.com>"},
 		}, false},
 		{"reverse-my-srs-dkim", args{
 			newTrx().
