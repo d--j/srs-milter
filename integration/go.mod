@@ -5,7 +5,7 @@ go 1.19
 require (
 	blitiri.com.ar/go/spf v1.5.1
 	github.com/agiledragon/gomonkey/v2 v2.9.0
-	github.com/d--j/go-milter v0.8.1
+	github.com/d--j/go-milter v0.8.2
 	github.com/d--j/go-milter/integration v0.0.0-20230315192140-b1c7d01972da
 	github.com/d--j/srs-milter v0.0.0-00010101000000-000000000000
 )

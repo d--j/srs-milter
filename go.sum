@@ -50,8 +50,8 @@ github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDk
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
 github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
 github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
-github.com/d--j/go-milter v0.8.1 h1:obP8GE+BTFGL9pWybwt4XaYi7lvY0kDRZCTG76R87jo=
-github.com/d--j/go-milter v0.8.1/go.mod h1:Xqk8WnXZ6Sk7r4J0FHZFExi0l0PDwT6EHbN5yMZTVHA=
+github.com/d--j/go-milter v0.8.2 h1:CXarRi9dB7CHOconlI79F6ghABax/Yd3cA6loeBgElQ=
+github.com/d--j/go-milter v0.8.2/go.mod h1:Xqk8WnXZ6Sk7r4J0FHZFExi0l0PDwT6EHbN5yMZTVHA=
 github.com/d--j/go-socketmap v0.0.0-20230403213743-46d60746ecee h1:Ly74kdG9MQuKP3OZeSGkb2ChIXXhn89wyxoN3CVG1WM=
 github.com/d--j/go-socketmap v0.0.0-20230403213743-46d60746ecee/go.mod h1:HKyIdyRNMFvAERlXa8hPbZ2H7SeTzWaxEgELRGv9CZQ=
 github.com/d--j/srs v0.0.0-20230317210039-a2adfcc7ffdf h1:DO0XGxkAcr+9jq0+y078Esp8PWKj8CMTsAWldufa9CA=

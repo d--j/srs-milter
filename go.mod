@@ -5,7 +5,7 @@ go 1.19
 require (
 	blitiri.com.ar/go/spf v1.5.1
 	github.com/agiledragon/gomonkey/v2 v2.9.0
-	github.com/d--j/go-milter v0.8.1
+	github.com/d--j/go-milter v0.8.2
 	github.com/d--j/go-socketmap v0.0.0-20230403213743-46d60746ecee
 	github.com/emersion/go-message v0.16.0
 	github.com/fsnotify/fsnotify v1.6.0
