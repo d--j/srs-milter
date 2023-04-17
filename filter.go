@@ -28,14 +28,15 @@ func Filter(_ context.Context, trx mailfilter.Trx, config *Configuration, cache 
 			logger.Debug("to is not one of our SRS addresses", "to", to.Addr)
 			continue
 		}
-		rewrittenTo, err := ReverseSrs(to.Addr, config)
+		a := to.Addr
+		rewrittenTo, err := ReverseSrs(a, config)
 		if err != nil {
-			logger.Error("error while generating reverse SRS address", "oto", to.Addr, "to", rewrittenTo, "err", err)
+			logger.Error("error while generating reverse SRS address", "oto", a, "to", rewrittenTo, "err", err)
 		} else {
-			logger.Debug("reverse SRS", "oto", to.Addr, "to", rewrittenTo)
+			logger.Debug("reverse SRS", "oto", a, "to", rewrittenTo)
 			trx.AddRcptTo(rewrittenTo, "")
-			trx.DelRcptTo(to.Addr)
-			actions = append(actions, fmt.Sprintf("recipient_env:%s:%s", to.Addr, rewrittenTo))
+			trx.DelRcptTo(a)
+			actions = append(actions, fmt.Sprintf("recipient_env:%s:%s", a, rewrittenTo))
 		}
 	}
 
@@ -53,14 +54,15 @@ func Filter(_ context.Context, trx mailfilter.Trx, config *Configuration, cache 
 			}
 		}
 		if hasRemoteTo && cache.IsLocalNotAllowedToSend(trx.MailFrom().Addr, trx.MailFrom().AsciiDomain()) {
-			srsAddress, err := ForwardSrs(trx.MailFrom().Addr, config)
+			a := trx.MailFrom().Addr
+			srsAddress, err := ForwardSrs(a, config)
 			if err != nil {
-				logger.Error("error while generating SRS address", "ofrom", trx.MailFrom().Addr, "from", srsAddress, "err", err)
+				logger.Error("error while generating SRS address", "ofrom", a, "from", srsAddress, "err", err)
 			} else {
-				logger.Debug("SRS", "ofrom", trx.MailFrom().Addr, "from", srsAddress)
+				logger.Debug("SRS", "ofrom", a, "from", srsAddress)
 				// Sendmail does not like getting ESMTP args, so we always send empty ESMTP args
 				trx.ChangeMailFrom(srsAddress, "")
-				actions = append(actions, fmt.Sprintf("sender:%s:%s", trx.MailFrom().Addr, srsAddress))
+				actions = append(actions, fmt.Sprintf("sender:%s:%s", a, srsAddress))
 			}
 		}
 	}
