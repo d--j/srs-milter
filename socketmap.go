@@ -1,9 +1,5 @@
 package srsmilter
 
-import (
-	"strings"
-)
-
 func Socketmap(config *Configuration, lookup, key string) (result string, found bool, err error) {
 	logger := Log.New("sub", "socketmap", "lookup", lookup, "key", key)
 	if lookup != "decode" {
@@ -22,12 +18,4 @@ func Socketmap(config *Configuration, lookup, key string) (result string, found 
 	}
 	logger.Debug("decoded", "result", email)
 	return email, true, nil
-}
-
-func split(email string) (string, Domain) {
-	at := strings.LastIndexByte(email, '@')
-	if at < 0 {
-		return email, ""
-	}
-	return email[:at], ToDomain(email[at+1:])
 }

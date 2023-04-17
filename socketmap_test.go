@@ -48,31 +48,3 @@ func TestSocketmap(t *testing.T) {
 		})
 	}
 }
-
-func Test_split(t *testing.T) {
-	type args struct {
-		email string
-	}
-	tests := []struct {
-		name       string
-		email      string
-		wantLocal  string
-		wantDomain Domain
-	}{
-		{"empty", "", "", ""},
-		{"without domain", "root", "root", ""},
-		{"with domain", "root@localhost", "root", ToDomain("localhost")},
-		{"with two ats", "root@crazy@localhost", "root@crazy", ToDomain("localhost")},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			gotLocal, gotDomain := split(tt.email)
-			if gotLocal != tt.wantLocal {
-				t.Errorf("split() gotLocal = %v, want %v", gotLocal, tt.wantLocal)
-			}
-			if gotDomain != tt.wantDomain {
-				t.Errorf("split() gotDomain = %v, want %v", gotDomain, tt.wantDomain)
-			}
-		})
-	}
-}

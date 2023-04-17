@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"net"
-	"net/mail"
 	"strings"
 
 	"github.com/d--j/go-milter/mailfilter/addr"
@@ -97,9 +96,9 @@ func (c *Configuration) ResolveForward(email *addr.RcptTo) (emails []*addr.RcptT
 			Log.Warn("scan error looking up forwards", "email", email.Addr, "err", err)
 			return []*addr.RcptTo{email}
 		}
-		addresses, err := mail.ParseAddressList(dest)
+		addresses, err := parseAddressList(dest)
 		if err != nil {
-			Log.Warn("parse error looking up forwards", "email", email.Addr, "err", err)
+			Log.Warn("parse error looking up forwards", "email", email.Addr, "dest", dest, "err", err)
 			return []*addr.RcptTo{email}
 		}
 		for _, a := range addresses {
