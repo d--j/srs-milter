@@ -81,7 +81,8 @@ func emailWithoutExtension(local string, asciiDomain string) string {
 }
 
 func (c *Configuration) ResolveForward(email *addr.RcptTo) (emails []*addr.RcptTo) {
-	return c.resolveForward(email, make(map[string]bool))
+	seen := make(map[string]bool)
+	return c.resolveForward(email, seen)
 }
 
 func (c *Configuration) resolveForward(email *addr.RcptTo, seen map[string]bool) (emails []*addr.RcptTo) {
@@ -106,7 +107,8 @@ func (c *Configuration) resolveForward(email *addr.RcptTo, seen map[string]bool)
 			return []*addr.RcptTo{email}
 		}
 		for _, a := range addresses {
-			if !seen[a.Address] {
+			Log.Debug("forward res", "from", email.Addr, "to", a.Address, "seen", seen[a.Address])
+			if !(seen[a.Address]) {
 				seen[a.Address] = true
 				for _, r := range c.resolveForward(addr.NewRcptTo(a.Address, "", email.Transport()), seen) {
 					emails = append(emails, r)
