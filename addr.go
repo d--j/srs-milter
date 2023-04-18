@@ -19,9 +19,6 @@ func parseAddressList(in string) (list []*mail.Address, err error) {
 		return r == ',' || unicode.IsSpace(r) || r == '\r' || r == '\n'
 	})
 	for _, p := range parts {
-		if len(p) == 0 {
-			continue
-		}
 		if a, err := mail.ParseAddress(p); err != nil {
 			return nil, err
 		} else {
