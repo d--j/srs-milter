@@ -1,6 +1,8 @@
 package srsmilter
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestForwardSrs(t *testing.T) {
 	c2 := &Configuration{

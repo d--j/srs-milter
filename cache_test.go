@@ -16,7 +16,9 @@ func monkeyPatch() *gomonkey.Patches {
 	// we do not want to go through the hoops of generating a test DNS resolver,
 	// just let's patch the library function we use – it has its own unit tests
 	return gomonkey.
-		ApplyFuncReturn(time.Now, ConstantDate).
+		ApplyFunc(time.Now, func() time.Time {
+			return ConstantDate
+		}).
 		ApplyFunc(spf.CheckHostWithSender, func(_ net.IP, helo, sender string, _ ...spf.Option) (spf.Result, error) {
 			if strings.HasSuffix(sender, "@example.com") || helo == "example.com" {
 				return spf.Pass, nil
