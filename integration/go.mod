@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	blitiri.com.ar/go/spf v1.5.1
-	github.com/agiledragon/gomonkey/v2 v2.13.0
+	github.com/agiledragon/gomonkey/v2 v2.14.0
 	github.com/d--j/go-milter v0.10.1
 	github.com/d--j/go-milter/integration v0.0.0-20250823202910-9e938fae5772
 	github.com/d--j/srs-milter v0.3.3
@@ -20,12 +20,12 @@ require (
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mileusna/srs v0.0.0-20210306010925-501e7d108e91 // indirect
-	golang.org/x/net v0.43.0 // indirect
-	golang.org/x/sync v0.16.0 // indirect
-	golang.org/x/sys v0.35.0 // indirect
-	golang.org/x/term v0.34.0 // indirect
-	golang.org/x/text v0.28.0 // indirect
-	golang.org/x/tools v0.36.0 // indirect
+	golang.org/x/net v0.50.0 // indirect
+	golang.org/x/sync v0.19.0 // indirect
+	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/term v0.40.0 // indirect
+	golang.org/x/text v0.34.0 // indirect
+	golang.org/x/tools v0.41.0 // indirect
 )
 
 replace github.com/d--j/srs-milter => ../
